@@ -7,7 +7,7 @@ import (
 	"testing"
 )
 
-func TestMain(t *testing.T) {
+func TestHelloWorld(t *testing.T) {
 	cases := []string{
 		"Tiago",
 		"João",
@@ -36,5 +36,21 @@ func TestMain(t *testing.T) {
 		if rr.Body.String() != expected {
 			t.Errorf("Erro: esperado '%s', recebido: %s", expected, rr.Body.String())
 		}
+	}
+}
+
+func TestHealth(t *testing.T) {
+	req, err := http.NewRequest("GET", "/healthz", nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	rr := httptest.NewRecorder()
+
+	handler := http.HandlerFunc(health)
+	handler.ServeHTTP(rr, req)
+
+	if rr.Body.String() != "OK" {
+		t.Errorf("Erro: esperado 'OK', recebido: %s", rr.Body.String())
 	}
 }
