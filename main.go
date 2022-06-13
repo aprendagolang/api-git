@@ -12,5 +12,10 @@ func main() {
 }
 
 func helloWorld(rw http.ResponseWriter, r *http.Request) {
-	fmt.Fprint(rw, "Hello World")
+	name := r.URL.Query().Get("name")
+	if name == "" {
+		name = "World"
+	}
+
+	fmt.Fprintf(rw, "Hello %s", name)
 }
